@@ -1,7 +1,7 @@
 // src/worker.ts
 import { Hono } from 'hono'
 import { z } from 'zod'
-import { zValidator } from '@hono/zod-validator'
+import { zValidator  } from 'zod-validator'
 
 const app = new Hono()
 
