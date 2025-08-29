@@ -1,0 +1,23 @@
+:root{ --bg:#0b0b12; --panel:#12121b; --muted:#9aa3b2; --text:#e9ecf1; --brand:#7c6cff; --brand-2:#9d89ff; --ok:#35c759; --warn:#ffb020; --bad:#ff6b6b; }
+*{box-sizing:border-box} html,body,#root{height:100%}
+body{margin:0;background:linear-gradient(160deg,var(--bg),#0e0e17);color:var(--text);font:400 15px/1.45 system-ui,Segoe UI,Roboto,Inter,sans-serif}
+.app{min-height:100%;display:flex;flex-direction:column}
+.header{position:sticky;top:0;z-index:10;background:rgba(18,18,27,.7);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}
+.header-inner{display:flex;align-items:center;gap:12px;padding:10px 14px}
+.logo{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 4px 22px rgba(124,108,255,.45)}
+.title{font-weight:650;letter-spacing:.2px}
+.main{flex:1;padding:16px}
+.panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
+.grid{display:grid;gap:12px}
+@media(min-width:760px){.grid{grid-template-columns:repeat(12,1fr)}.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-12{grid-column:span 12}}
+.stat{display:flex;justify-content:space-between;align-items:center;background:#0f0f17;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px}
+.stat .label{color:var(--muted);font-size:13px}
+.stat .value{font-weight:700}
+.tabbar{position:sticky;bottom:0;background:rgba(18,18,27,.9);backdrop-filter:saturate(160%) blur(14px);border-top:1px solid rgba(255,255,255,.06)}
+.tabs{display:flex;justify-content:space-around;gap:6px;padding:10px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 6px;border-radius:12px;text-decoration:none;color:var(--muted)}
+.tab.active{color:var(--text);background:rgba(124,108,255,.12);outline:1px solid rgba(124,108,255,.35)}
+.tab .icon{font-size:16px}
+.link{color:var(--brand)}
+.button{appearance:none;border:0;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:white;font-weight:600;box-shadow:0 8px 24px rgba(124,108,255,.45)}
+.button.ghost{background:transparent;border:1px solid rgba(255,255,255,.12)}
