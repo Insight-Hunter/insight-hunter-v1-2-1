@@ -1,0 +1,7 @@
+name = "insight-hunter"
+main = "worker/index.ts"           # your Worker entry (Hono, etc.)
+compatibility_date = "2025-08-01"
+
+[assets]
+directory = "dist/client"          # your Vite build output
+# binding = "ASSETS"               # optional, only if you reference it in code
