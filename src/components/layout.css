@@ -1,0 +1,39 @@
+.ih-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #050809;
+  color: #e8f1ef;
+}
+
+.ih-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Bottom Tab Bar */
+.ih-tabbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 56px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0f1a1a;
+}
+
+.ih-tabbar a {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  padding: 8px 0;
+  text-decoration: none;
+  color: #a8b8b5;
+  transition: color 0.2s ease;
+}
+
+.ih-tabbar a.active {
+  color: #1fd1b5;
+  font-weight: 600;
+}
