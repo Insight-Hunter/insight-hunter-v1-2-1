@@ -1,137 +1,136 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-
-type AuthResponse = { ok: boolean; message?: string; redirect?: string };
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
-  return (
-    <main style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>Sign in to Insight Hunter</h1>
-      {/* real auth form */}
-      <form style={{ marginTop: "1rem" }}>
-        <input
-          type="email"
-          placeholder="Email"
-          style={{ padding: "0.5rem", marginBottom: "0.5rem" }}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Password"
-          style={{ padding: "0.5rem", marginBottom: "0.5rem" }}
-        />
-        <br />
-        <button type="submit" style={{ padding: "0.75rem 1.25rem" }}>
-          Sign In
-        </button>
-      </form>
-    </main>
-  );
-}
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPw, setShowPw] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErr(null);
-    if (!email || !password) {
-      setErr("Enter your email and password.");
-      return;
-    }
     setLoading(true);
+
     try {
-      // Swap this endpoint with your real auth handler
+      // TODO: swap this for your real endpoint (e.g. /api/auth/signin)
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const data: AuthResponse = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.message || "Sign in failed");
-      nav(data.redirect || "/business-setup");
-      catch (e: any) {
-      setErr(e.message || "Something went wrong");
+
+      // Guard against non-JSON responses
+      let data: any = {};
+      try {
+        data = await res.json();
+      } catch {
+        // keep data as {}
+      }
+
+      if (!res.ok || data?.ok === false) {
+        throw new Error(data?.message || "Sign in failed");
+      }
+
+      // Go to next onboarding step
+      nav(data?.redirect || "/business-setup");
+    } catch (e: any) {
+      setErr(e?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   }
 
-  function fillDemo() {
-    setEmail("demo@example.com");
-    setPassword("demo1234");
-  }
-
   return (
-    <div className="max-w-sm mx-auto py-10">
-      <div className="text-center mb-6">
-        <img src="/favicon.svg" alt="Insight Hunter" className="mx-auto w-12 h-12" />
-        <h1 className="mt-3 text-2xl font-semibold">Sign In</h1>
-        <p className="text-sm text-gray-500">Your AI CFO in your pocket</p>
-      </div>
+    <main style={{ padding: "24px 16px", color: "#e8f1ef" }}>
+      <h1 style={{ fontSize: 28, marginBottom: 8 }}>Sign in</h1>
+      <p style={{ opacity: 0.8, marginBottom: 16 }}>
+        Use Email, Google, or Wallet Connect.
+      </p>
 
-      <form onSubmit={onSubmit} className="space-y-4">
-        <label className="block">
-          <span className="text-sm">Email</span>
-          <input
-            type="email"
-            autoComplete="email"
-            className="mt-1 w-full rounded border px-3 py-2 outline-none focus:ring"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-
-        <label className="block">
-          <span className="text-sm">Password</span>
-          <div className="mt-1 relative">
-            <input
-              type={showPw ? "text" : "password"}
-              autoComplete="current-password"
-              className="w-full rounded border px-3 py-2 pr-16 outline-none focus:ring"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button
-              type="button"
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-sm underline"
-              onClick={() => setShowPw((s) => !s)}
-            >
-              {showPw ? "Hide" : "Show"}
-            </button>
-          </div>
-        </label>
-
-        {err && <p className="text-sm text-red-600">{err}</p>}
+      <form onSubmit={onSubmit} style={{ display: "grid", gap: 12 }}>
+        <input
+          inputMode="email"
+          autoComplete="email"
+          placeholder="you@company.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          style={field}
+          aria-label="Email"
+          required
+        />
+        <input
+          type="password"
+          autoComplete="current-password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={field}
+          aria-label="Password"
+          required
+        />
 
         <button
           type="submit"
+          style={btnPrimary}
           disabled={loading}
-          className="w-full rounded bg-orange-500 py-2 font-medium text-white disabled:opacity-60"
+          aria-busy={loading}
         >
-          {loading ? "Signing in..." : "Sign In"}
+          {loading ? "Signing in…" : "Continue"}
         </button>
 
-        <button
-          type="button"
-          className="w-full rounded border py-2 text-sm"
-          onClick={fillDemo}
-        >
-          Use demo credentials
-        </button>
-
-        <div className="flex items-center justify-between text-sm">
-          <Link to="/forgot" className="underline">Forgot password?</Link>
-          <span>
-            Don’t have an account? <Link to="/signup" className="underline">Sign Up</Link>
-          </span>
-        </div>
+        {err && (
+          <div role="alert" style={alertErr}>
+            {err}
+          </div>
+        )}
       </form>
-    </div>
+
+      <div style={{ display: "grid", gap: 10, marginTop: 14 }}>
+        <button type="button" style={btnSecondary}>
+          Continue with Google
+        </button>
+        <button type="button" style={btnSecondary}>
+          Wallet Connect
+        </button>
+      </div>
+    </main>
   );
 }
+
+const field: React.CSSProperties = {
+  padding: "14px 12px",
+  borderRadius: 12,
+  border: "1px solid #2b3b3a",
+  background: "#0f1a1a",
+  color: "#e8f1ef",
+};
+
+const btnPrimary: React.CSSProperties = {
+  padding: "14px 16px",
+  borderRadius: 14,
+  border: "1px solid #2b3b3a",
+  background: "#0f1a1a",
+  color: "#e8f1ef",
+  fontWeight: 600,
+};
+
+const btnSecondary: React.CSSProperties = {
+  padding: "12px 14px",
+  borderRadius: 12,
+  border: "1px solid #2b3b3a",
+  background: "transparent",
+  color: "#e8f1ef",
+  fontWeight: 600,
+};
+
+const alertErr: React.CSSProperties = {
+  marginTop: 8,
+  padding: "10px 12px",
+  borderRadius: 10,
+  border: "1px solid rgba(255,0,0,.35)",
+  background: "rgba(255,0,0,.08)",
+  color: "#ffd0d0",
+  fontSize: 14,
+};
