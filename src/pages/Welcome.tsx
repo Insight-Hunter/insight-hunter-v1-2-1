@@ -66,8 +66,8 @@ export default function Welcome() {
 
         <button
           className="ih-cta"
-          onClick={() => nav("/dashboard")}
-          aria-label="Continue to the app"
+          onClick={() => nav("/signin")}
+          aria-label="Continue to sign in"
         >
           Continue
         </button>
