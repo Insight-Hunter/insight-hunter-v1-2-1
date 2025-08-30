@@ -18,7 +18,7 @@ import NotFound from "./pages/NotFound";
 export default function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
+      <Route element={<Layout />} >
         {/* Entry point */}
         <Route path="/" element={<Welcome />} />
 
@@ -41,7 +41,7 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="*" element={<Welcome />} />
       </Route>
-    </Routes>
+   </Routes>
   );
 }
 
