@@ -53,7 +53,7 @@ export default function SignIn() {
       const data: AuthResponse = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.message || "Sign in failed");
       nav(data.redirect || "/business-setup");
-    } catch (e: any) {
+      catch (e: any) {
       setErr(e.message || "Something went wrong");
     } finally {
       setLoading(false);
