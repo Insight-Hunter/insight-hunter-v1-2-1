@@ -13,11 +13,16 @@ import VendorProfiles from "./pages/VendorProfiles";
 import Alerts from "./pages/Alerts";
 import AICFOAssistant from "./pages/AICFOAssistant";
 import NotFound from "./pages/NotFound";
+import Layout from "./components/Layout";
+import Welcome from "./pages/Welcome";
 
 export default function App() {
   return (
     <Layout>
       <Routes>
+        <Route element={<Layout />}
+        <Route path="/" element={<Welcome />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
@@ -30,6 +35,7 @@ export default function App() {
         <Route path="/assistant" element={<AICFOAssistant />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Welcome />} />
       </Routes>
     </Layout>
   );
