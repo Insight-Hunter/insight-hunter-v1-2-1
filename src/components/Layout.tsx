@@ -39,9 +39,9 @@ export default function Layout() {
             className={pathname === "/settings-setup" ? "active" : ""}
           >
             Settings
-          </Link>
-        </nav>
-      )}
-    </div>
-  );
-}
+           </Link>
+         </nav>
+        )}
+      </div>
+    );
+ }
