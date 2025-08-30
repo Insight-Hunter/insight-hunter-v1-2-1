@@ -20,7 +20,7 @@ export default function App() {
   return (
     <Layout>
       <Routes>
-        <Route element={<Layout />}
+        <Route element={<Layout />} / >
         <Route path="/" element={<Welcome />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Dashboard />} />
