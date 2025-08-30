@@ -16,14 +16,15 @@ import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 import Welcome from "./pages/Welcome";
 
+import Welcome from "./pages/Welcome";
+import Dashboard from "./pages/Dashboard";
+
 export default function App() {
   return (
-    <Layout>
-      <Routes>
-        <Route element={<Layout />} / >
+    <Routes>
+      <Route element={<Layout />}>
         <Route path="/" element={<Welcome />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/" element={<Dashboard />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/business-setup" element={<BusinessSetup />} />
@@ -37,7 +38,6 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="*" element={<Welcome />} />
       </Routes>
-    </Layout>
   );
 }
 
