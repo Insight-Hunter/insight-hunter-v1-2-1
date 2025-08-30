@@ -1,69 +1,34 @@
-import { Link, useLocation } from "react-router-dom";
-import { Outlet, useLocation } from "react-router-dom";
-import TabBar from "./TabBar";
+import { Outlet, useLocation, Link } from "react-router-dom";
+import "./layout.css";
 
-  
-// components/Layout.
-
-export default function Layout({children }: { children: React.ReactNode }) {
+export default function Layout() {
   const { pathname } = useLocation();
-  const showTabs = pathname !== "/";
-  const hideTabs = ["/signin", "/signup", "/business-setup"].includes(pathname);
-  return (
-    <>
-      <Outlet />
-      {showTabs && <TabBar />}
-    </>
-  );
 
-  const tabs = [
-    { to: "/", label: "Home" },
-    { to: "/forecast", label: "Forecast" },
-    { to: "/reports", label: "Reports" },
-    { to: "/vendors", label: "Vendors" },
-    { to: "/settings", label: "Settings" },
-  ];
+  // Hide tabs on welcome + onboarding routes
+  const hideTabs =
+    pathname === "/" || pathname.startsWith("/signin");
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="h-12 flex items-center justify-between px-4 border-b">
-        <Link to="/" className="font-semibold">
-          Insight Hunter
-        </Link>
-        <nav className="hidden md:flex gap-4">
-          {tabs.map((t) => (
-            <Link
-              key={t.to}
-              to={t.to}
-              className={pathname === t.to ? "font-semibold" : ""}
-            >
-              {t.label}
-            </Link>
-          ))}
-        </nav>
-      </header>
+    <div className="ih-layout">
+      <div className="ih-main">
+        <Outlet />
+      </div>
 
-      {/* Main */}
-      <main className="flex-1 p-4">{children}</main>
-
-      {/* Mobile tab bar */}
       {!hideTabs && (
-        <footer className="md:hidden border-t">
-          <div className="grid grid-cols-5 text-sm">
-            {tabs.map((t) => (
-              <Link
-                key={t.to}
-                to={t.to}
-                className={`py-2 text-center ${
-                  pathname === t.to ? "font-semibold" : ""
-                }'}
-              >
-                {t.label}
-              </Link>
-            ))}
-          </div>
-        </footer>
+        <nav className="ih-tabbar">
+          <Link to="/dashboard" className={pathname === "/dashboard" ? "active" : ""}>
+            Dashboard
+          </Link>
+          <Link to="/analytics-trends" className={pathname === "/analytics-trends" ? "active" : ""}>
+            Analytics
+          </Link>
+          <Link to="/reports" className={pathname === "/reports" ? "active" : ""}>
+            Reports
+          </Link>
+          <Link to="/settings-setup" className={pathname === "/settings-setup" ? "active" : ""}>
+            Settings
+          </Link>
+        </nav>
       )}
     </div>
   );
