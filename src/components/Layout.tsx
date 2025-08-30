@@ -15,7 +15,7 @@ export default function Layout({children }: { children: React.ReactNode }) {
       {showTabs && <TabBar />}
     </>
   );
-}
+
   const tabs = [
     { to: "/", label: "Home" },
     { to: "/forecast", label: "Forecast" },
@@ -57,7 +57,7 @@ export default function Layout({children }: { children: React.ReactNode }) {
                 to={t.to}
                 className={`py-2 text-center ${
                   pathname === t.to ? "font-semibold" : ""
-                }`}
+                }'}
               >
                 {t.label}
               </Link>
