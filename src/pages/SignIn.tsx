@@ -4,6 +4,30 @@ import { useNavigate, Link } from "react-router-dom";
 type AuthResponse = { ok: boolean; message?: string; redirect?: string };
 
 export default function SignIn() {
+  return (
+    <main style={{ padding: "2rem", textAlign: "center" }}>
+      <h1>Sign in to Insight Hunter</h1>
+      {/* real auth form */}
+      <form style={{ marginTop: "1rem" }}>
+        <input
+          type="email"
+          placeholder="Email"
+          style={{ padding: "0.5rem", marginBottom: "0.5rem" }}
+        />
+        <br />
+        <input
+          type="password"
+          placeholder="Password"
+          style={{ padding: "0.5rem", marginBottom: "0.5rem" }}
+        />
+        <br />
+        <button type="submit" style={{ padding: "0.75rem 1.25rem" }}>
+          Sign In
+        </button>
+      </form>
+    </main>
+  );
+}
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
