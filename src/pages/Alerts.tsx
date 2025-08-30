@@ -1,0 +1,1 @@
+export default function Alerts() { return <h2>Alerts</h2>; }

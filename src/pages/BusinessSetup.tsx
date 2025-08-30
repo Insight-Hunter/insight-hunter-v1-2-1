@@ -1,0 +1,1 @@
+export default function BusinessSetup() { return <h2>Business Setup</h2>; }

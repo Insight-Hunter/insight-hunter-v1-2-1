@@ -1,0 +1,1 @@
+export default function AICFOAssistant() { return <h2>AI CFO Assistant</h2>; }

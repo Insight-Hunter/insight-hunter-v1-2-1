@@ -1,0 +1,1 @@
+export default function AnalyticsTrends() { return <h2>Analytics & Trends</h2>; }
