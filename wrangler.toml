@@ -1,16 +1,49 @@
 name = "insight-hunter"
 main = "worker/index.ts"
 compatibility_date = "2025-08-01"
+# Uncomment only if you use Node APIs in the worker runtime:
+compatibility_flags = ["nodejs_compat"]
 
-# Serve your Vite build (dist/client) from the Worker
+# Serve your Vite build output via the Worker
 [assets]
 directory = "dist/client"
+binding = "ASSETS"   # must match c.env.ASSETS in index.ts
 
-# Optional: bind a custom domain at deploy time (uncomment + set your zone)
-# routes = [
-#   { pattern = "insight.hunterturner.com/*" }
-# ]
-# or:
-# routes = [
-#   { pattern = "insight.hunterturner.com/*", zone_name = "hunterturner.com" }
-# ]
+# --- Optional: Custom domain/route (enable when ready) ---
+routes = [
+  { pattern = "insight.hunterturner.com", custom_domain = true },
+  { pattern = "insight.hunterturner.com/*", custom_domain = true }
+]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "insight_hunter_db"
+database_id = "3678f73e-c2cb-48fb-9cb4-91e6141024f4"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "5d547bc308d1445d960d19636c589923"
+
+[vars]
+APP_ENV = "production"
+SESSION_TTL_SECONDS = "604800"
+
+# [[r2_buckets]]
+# binding = "R2"
+# bucket_name = "insight-hunter"
+
+# --- Optional: D1 (SQLite in the cloud) ---
+[[d1_databases]]
+binding = "DB"
+ database_name = "insight-hunter-db"
+ database_id = "<d1_database_id>"
+
+# --- Optional: Queues (producer) ---
+# [[queues.producers]]
+# binding = "JOBS"
+# queue = "insight-hunter-jobs"
+
+# --- Optional: Durable Objects ---
+# [[durable_objects.bindings]]
+# name = "SESSION"
+# class_name = "SessionDurableObject"

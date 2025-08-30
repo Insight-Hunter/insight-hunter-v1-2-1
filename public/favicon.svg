@@ -1,10 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7c6cff"/>
-      <stop offset="1" stop-color="#9d89ff"/>
-    </linearGradient>
+    <style>
+      .navy { stroke: #0f1b2d; }
+      .orange { fill: #ff6a00; }
+    </style>
   </defs>
-  <rect width="48" height="48" rx="10" fill="url(#g)"/>
-  <path d="M11 32l9-9 5 5 10-10 2 2-12 12-5-5-7 7z" fill="#fff"/>
+  <!-- Lens -->
+  <circle cx="112" cy="112" r="76" fill="white" stroke="#0f1b2d" stroke-width="16"/>
+  <!-- Bars -->
+  <rect x="72" y="120" width="20" height="36" class="orange" rx="4"/>
+  <rect x="104" y="100" width="20" height="56" class="orange" rx="4"/>
+  <rect x="136" y="80"  width="20" height="76" class="orange" rx="4"/>
+  <!-- Handle -->
+  <g transform="translate(112,112) rotate(45) translate(-112,-112)">
+    <rect x="164" y="156" width="64" height="16" rx="8" fill="#0f1b2d"/>
+  </g>
 </svg>
