@@ -35,9 +35,10 @@ export default function App() {
         <Route path="/alerts" element={<Alerts />} />
         <Route path="/assistant" element={<AICFOAssistant />} />
         <Route path="/settings" element={<Settings />} />
+      </Route>
         <Route path="*" element={<NotFound />} />
         <Route path="*" element={<Welcome />} />
-      </Routes>
+    </Routes>
   );
 }
 
