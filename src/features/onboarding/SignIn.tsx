@@ -10,7 +10,7 @@ export default function SignIn() {
     // TODO: hook to real auth (Email, Google, WalletConnect)
     markComplete("signin");
     next();
-  }
+  
 
   return (
     <main style={{ padding: "24px 16px", color: "#e8f1ef" }}>
