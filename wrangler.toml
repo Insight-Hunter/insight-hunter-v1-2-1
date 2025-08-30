@@ -1,7 +1,16 @@
 name = "insight-hunter"
-main = "worker/index.ts"           # your Worker entry (Hono, etc.)
+main = "worker/index.ts"
 compatibility_date = "2025-08-01"
 
+# Serve your Vite build (dist/client) from the Worker
 [assets]
-directory = "dist/client"          # your Vite build output
-# binding = "ASSETS"               # optional, only if you reference it in code
+directory = "dist/client"
+
+# Optional: bind a custom domain at deploy time (uncomment + set your zone)
+# routes = [
+#   { pattern = "insight.hunterturner.com/*" }
+# ]
+# or:
+# routes = [
+#   { pattern = "insight.hunterturner.com/*", zone_name = "hunterturner.com" }
+# ]
