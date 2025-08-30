@@ -1,9 +1,21 @@
 import { Link, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import TabBar from "./TabBar";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+  
+// components/Layout.
+
+export default function Layout({children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
+  const showTabs = pathname !== "/";
   const hideTabs = ["/signin", "/signup", "/business-setup"].includes(pathname);
-
+  return (
+    <>
+      <Outlet />
+      {showTabs && <TabBar />}
+    </>
+  );
+}
   const tabs = [
     { to: "/", label: "Home" },
     { to: "/forecast", label: "Forecast" },
