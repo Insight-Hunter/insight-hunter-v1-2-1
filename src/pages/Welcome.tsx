@@ -60,8 +60,9 @@ export default function Welcome() {
 
         <ul className="ih-list" role="list">
           <li><span className="ih-check" aria-hidden>✔</span>Connect your accounts</li>
-          <li><span className="ih-check" aria-hidden>✔</span>Set up invoice insights</li>
-          <li><span className="ih-check" aria-hidden>✔</span>Enable wallet sync</li>
+          <li><span className="ih-check" aria-hidden>✔</span>Set up KPI Alerts insights</li>
+          <li><span className="ih-check" aria-hidden>✔</span>Get real-time insights from Auto-CFO</li>
+          <li><span className="ih-check" aria-hidden>✔</span>Monitor Crypto funds</li>
         </ul>
 
         <button
