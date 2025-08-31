@@ -1,13 +1,18 @@
+import type { FC } from "react";
+export const AnalyticsPage: FC = () => (
+  
 import { useEffect, useState } from "react";
-
-type Kpi = { label: string; value: string };
+  <main>
+    <h1 style={{ fontSize: 28, marginBottom: 8 }}>Analytics & Trends</h1>
+    <p className="sub">“Your invoice risk increased 12% last month.”</p>
+  type Kpi = { label: string; value: string };
 type Point = { month: string; revenue: number; expenses: number; net: number };
 
 export default function AnalyticsTrends() {
   const [loading, setLoading] = useState(true);
   const [kpis, setKpis] = useState<Kpi[]>([]);
   const [series, setSeries] = useState<Point[]>([]);
-
+  
   useEffect(() => {
     (async () => {
       try {
