@@ -1,3 +1,8 @@
+/* src/styles.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root{ --bg:#0b0b12; --panel:#12121b; --muted:#9aa3b2; --text:#e9ecf1; --brand:#7c6cff; --brand-2:#9d89ff; --ok:#35c759; --warn:#ffb020; --bad:#ff6b6b; }
 *{box-sizing:border-box} html,body,#root{height:100%}
 body{margin:0;background:linear-gradient(160deg,var(--bg),#0e0e17);color:var(--text);font:400 15px/1.45 system-ui,Segoe UI,Roboto,Inter,sans-serif}
