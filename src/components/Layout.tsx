@@ -9,7 +9,6 @@ export default function Layout() {
   const hideTabs = pathname === "/" || pathname.startsWith("/signin");
 
   return (
-<<<<<<< HEAD
       <div className="min-h-screen flex flex-col">
         {/* Header */}
         <header className="h-12 flex items-center justify-between px-4 border-b">
