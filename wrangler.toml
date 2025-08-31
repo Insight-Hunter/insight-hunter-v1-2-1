@@ -1,15 +1,12 @@
 name = "insight-hunter"
 main = "worker/index.ts"
 compatibility_date = "2025-08-01"
-# Uncomment only if you use Node APIs in the worker runtime:
 compatibility_flags = ["nodejs_compat"]
 
-# Serve your Vite build output via the Worker
 [assets]
 directory = "dist/client"
 binding = "ASSETS"   # must match c.env.ASSETS in index.ts
 
-# --- Optional: Custom domain/route (enable when ready) ---
 routes = [
   { pattern = "insight.hunterturner.com", custom_domain = true },
   { pattern = "insight.hunterturner.com/*", custom_domain = true }
@@ -32,12 +29,6 @@ SESSION_TTL_SECONDS = "604800"
 # binding = "R2"
 # bucket_name = "insight-hunter"
 
-# --- Optional: D1 (SQLite in the cloud) ---
-[[d1_databases]]
-binding = "DB"
- database_name = "insight-hunter-db"
- database_id = "<d1_database_id>"
-
 # --- Optional: Queues (producer) ---
 # [[queues.producers]]
 # binding = "JOBS"
@@ -47,3 +38,26 @@ binding = "DB"
 # [[durable_objects.bindings]]
 # name = "SESSION"
 # class_name = "SessionDurableObject"
+
+[vars]
+TEMPLATE_VERSION = "v1"  # bump to bust cache
+name = "insight-hunter-onboarding"
+main = "src/worker.ts"
+compatibility_date = "2024-11-21"
+
+[[d1_databases]]
+binding = "DB"         # env.DB
+database_name = "insight_hunter_db"
+database_id = "xxxx-xxxx"
+
+[[kv_namespaces]]
+binding = "STATE"      # env.STATE
+id = "xxxxxxxxxx"
+
+[[r2_buckets]]
+binding = "ASSETS"     # env.ASSETS
+bucket_name = "ih-templates"
+
+[vars]
+TEMPLATE_VERSION = "v1"  # bump to bust cache
+

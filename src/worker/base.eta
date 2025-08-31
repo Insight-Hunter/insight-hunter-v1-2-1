@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Insight Hunter – <%= it.title %></title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    body { margin:0; background:#050809; color:#e8f1ef; font-family: ui-sans-serif, system-ui, -apple-system; }
+    main { padding: 24px 16px; max-width: 640px; margin: 0 auto; }
+    .cta { margin-top: 18px; padding: 14px 16px; border-radius: 14px; border: 1px solid #2b3b3a; background:#0f1a1a; color:#e8f1ef; font-weight:600; }
+    a.cta { display:inline-block; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 style="font-size:28px; margin:0 0 8px"><%= it.title %></h1>
+    <section><%- it.body %></section>
+
+    <% if (it.nextSlug) { %>
+      <a class="cta" href="/onboard/<%= it.nextSlug %>"><%= it.cta %></a>
+    <% } else { %>
+      <a class="cta" href="/dashboard">Finish</a>
+    <% } %>
+  </main>
+
+  <script>
+    window.__STEP__ = <%= it.initialState %>;
+  </script>
+  <script type="module" src="/static/onboard-hydrate.js"></script>
+</body>
+</html>
