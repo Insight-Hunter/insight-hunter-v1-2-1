@@ -12,23 +12,6 @@ routes = [
   { pattern = "insight.hunterturner.com/*", custom_domain = true }
 ]
 
-[[d1_databases]]
-binding = "DB"
-database_name = "insight_hunter_db"
-database_id = "3678f73e-c2cb-48fb-9cb4-91e6141024f4"
-
-[[kv_namespaces]]
-binding = "KV"
-id = "5d547bc308d1445d960d19636c589923"
-
-[vars]
-APP_ENV = "production"
-SESSION_TTL_SECONDS = "604800"
-
-# [[r2_buckets]]
-# binding = "R2"
-# bucket_name = "insight-hunter"
-
 # --- Optional: Queues (producer) ---
 # [[queues.producers]]
 # binding = "JOBS"
@@ -40,19 +23,21 @@ SESSION_TTL_SECONDS = "604800"
 # class_name = "SessionDurableObject"
 
 [vars]
-TEMPLATE_VERSION = "v1"  # bump to bust cache
+TEMPLATE_VERSION = "v1" 
 name = "insight-hunter-onboarding"
 main = "src/worker.ts"
 compatibility_date = "2024-11-21"
+APP_ENV = "production"
+SESSION_TTL_SECONDS = "604800"
 
 [[d1_databases]]
-binding = "DB"         # env.DB
+binding = "DB"
 database_name = "insight_hunter_db"
-database_id = "xxxx-xxxx"
+database_id = "3678f73e-c2cb-48fb-9cb4-91e6141024f4"
 
 [[kv_namespaces]]
-binding = "STATE"      # env.STATE
-id = "xxxxxxxxxx"
+binding = "KV"
+id = "5d547bc308d1445d960d19636c589923"
 
 [[r2_buckets]]
 binding = "ASSETS"     # env.ASSETS

@@ -1,40 +1,88 @@
-// worker/index.ts
-import { Hono } from "hono";
+// src/worker.ts
+import { Hono } from 'hono';
+import { Eta } from 'eta'; // npm i eta
+import { cors } from 'hono/cors';
 
 type Env = {
-  Bindings: {
-    // Matches [assets] binding in wrangler.toml
-    ASSETS: { fetch: typeof fetch };
-    // Uncomment/add as you bind more stuff:
-    // DB: D1Database;
-    // BUCKET: R2Bucket;
-    // CACHE: KVNamespace;
-    // JOBS: Queue<any>;
-  };
+  DB: D1Database;
+  STATE: KVNamespace;
+  ASSETS: R2Bucket;
+  TEMPLATE_VERSION: string;
 };
 
-const app = new Hono<Env>();
+const app = new Hono<{ Bindings: Env }>();
+app.use('*', cors());
 
-// --- API routes ---
-app.get("/api/health", (c) => c.json({ ok: true, service: "insight-hunter" }));
-app.get("/api/hello/:name", (c) => c.json({ hello: c.req.param("name") }));
+const eta = new Eta({ autoEscape: true });
 
-// --- Static assets + SPA fallback ---
-app.all("*", async (c) => {
-  // Try to serve a real static file first
-  const res = await c.env.ASSETS.fetch(c.req.raw);
-  if (res.status !== 404) return res;
+async function loadBaseTemplate(env: Env) {
+  // Try KV cache first, then R2
+  const cacheKey = `tpl:${env.TEMPLATE_VERSION}:base`;
+  const cached = await env.STATE.get(cacheKey);
+  if (cached) return cached;
 
-  // If the client wants HTML (likely a client-side route), return index.html
-  const accept = c.req.header("accept") ?? "";
-  if (accept.includes("text/html")) {
-    const url = new URL(c.req.url);
-    // Important: fetch index.html from the assets binding
-    return c.env.ASSETS.fetch(new Request(`${url.origin}/index.html`, c.req.raw));
-  }
+  const obj = await env.ASSETS.get('templates/base.eta'); // upload this to R2
+  const text = await obj?.text();
+  if (!text) throw new Error('Base template missing');
+  await env.STATE.put(cacheKey, text, { expirationTtl: 60 * 15 });
+  return text;
+}
 
-  // Otherwise, propagate the 404 (e.g., missing image/json/etc.)
-  return res;
+async function getStep(env: Env, slug: string) {
+  const { results } = await env.DB
+    .prepare('SELECT * FROM steps WHERE slug = ?')
+    .bind(slug)
+    .all();
+  return (results && results[0]) as any | undefined;
+}
+
+function cacheKey(env: Env, slug: string) {
+  return `onboard:${env.TEMPLATE_VERSION}:${slug}`;
+}
+
+app.get('/onboard/:slug', async (c) => {
+  const { slug } = c.req.param();
+  const env = c.env;
+
+  // Edge cache
+  const key = new Request(new URL(c.req.url).toString());
+  const cached = await caches.default.match(key);
+  if (cached) return cached;
+
+  // Fetch data
+  const step = await getStep(env, slug);
+  if (!step) return c.text('Not found', 404);
+
+  // Load template
+  const base = await loadBaseTemplate(env);
+
+  // Compile & render (Blade-like)
+  const html = eta.renderString(base, {
+    title: step.title,
+    body: step.body,
+    cta: step.cta_label,
+    nextSlug: step.next_slug,
+    step,
+    initialState: JSON.stringify({ step }),
+  });
+
+  const resp = new Response(html, {
+    headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=60' },
+  });
+
+  // Save to edge cache
+  c.executionCtx.waitUntil(caches.default.put(key, resp.clone()));
+  return resp;
+});
+
+// API to compute the "next" step server-side (based on STATE)
+app.get('/onboard/next', async (c) => {
+  const env = c.env;
+  const sid = c.req.header('X-Session') || 'anon';
+  const progress = JSON.parse((await env.STATE.get(`u:${sid}:progress`)) || '{}');
+  // Determine next slug from your policy
+  const next = progress.next || 'signin';
+  return c.json({ next });
 });
 
 export default app;
