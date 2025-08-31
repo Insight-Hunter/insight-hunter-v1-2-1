@@ -52,8 +52,7 @@ export default function Layout() {
                         }`}
                       >
                         {t.label}
-                      </Link>
-                  );
+                      </Link);
               })}
             </div>
           </footer>
