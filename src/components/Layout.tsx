@@ -21,7 +21,7 @@ export default function Layout() {
               loading="eager"
               decoding="sync"
             />
-            <span className="font-semibold">Insight Hunter</span>
+            <span className="font-semibold">Insight Hunter</span>6
           </Link>
           {/* Desktop nav */}
           <nav className="hidden md:flex gap-4">
@@ -52,18 +52,16 @@ export default function Layout() {
                         }`}
                       >
                         {t.label}
-                      </Link);
+                       </Link
               })}
             </div>
           </footer>
         )}
-      </div>
-  );
-}
+    
     <div className="ih-layout">
       <div className="ih-main">
         <Outlet />
-      </div>
+      </div>)
 
       {!hideTabs && (
         <nav className="ih-tabbar" role="navigation" aria-label="Primary">
@@ -87,6 +85,7 @@ export default function Layout() {
           </Link>
           <Link
             to="/settings-setup"
+            p
             className={pathname === "/settings-setup" ? "active" : ""}
           >
             Settings
