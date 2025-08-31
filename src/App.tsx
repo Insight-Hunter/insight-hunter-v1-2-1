@@ -5,8 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import Forecast from "./pages/Forecast";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
-import SignUp from "./pages/SignIn";
-import BusinessSetup from "./pages/BusinessSetup";
+import SignIn from "./pages/SignIn";
+import BusinessSetup from "./pages/BusinessSetup";s
 import AnalyticsTrends from "./pages/AnalyticsTrends";
 import VendorProfiles from "./pages/VendorProfiles";
 import Alerts from "./pages/Alerts";
