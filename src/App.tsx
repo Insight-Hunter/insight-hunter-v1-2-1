@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Welcome from "./pages/Welcome";
-import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 import Forecast from "./pages/Forecast";
 import Reports from "./pages/Reports";
@@ -23,7 +22,6 @@ export default function App() {
         <Route path="/" element={<Welcome />} />
 
         {/* Auth */}
-        <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         
         {/* App */}
