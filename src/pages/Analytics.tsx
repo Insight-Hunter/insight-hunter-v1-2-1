@@ -1,5 +1,5 @@
 import type { FC } from "react";
-export const AnalyticsPage: FC = () => (
+export const Analytics: FC = () => (
   
 import { useEffect, useState } from "react";
   <main>
