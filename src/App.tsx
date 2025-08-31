@@ -5,17 +5,14 @@ import Dashboard from "./pages/Dashboard";
 import Forecast from "./pages/Forecast";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
-<<<<<<< HEAD
 import BusinessSetup from "./pages/BusinessSetup";
-=======
-import SignIn from "./pages/SignIn";
-import BusinessSetup from "./pages/BusinessSetup";s
->>>>>>> 6f40e77217d16b644da4f238a42970e72d4ca447
 import AnalyticsTrends from "./pages/AnalyticsTrends";
 import VendorProfiles from "./pages/VendorProfiles";
 import Alerts from "./pages/Alerts";
 import AICFOAssistant from "./pages/AICFOAssistant";
 import NotFound from "./pages/NotFound";
+import SignIn from "./features/pages/onboarding/SignIn";
+import { SignInPage } from "./server/pages/SignInPage";
 
 
 export default function App() {
@@ -26,12 +23,7 @@ export default function App() {
         <Route path="/" element={<Welcome />} />
 
         {/* Auth */}
-<<<<<<< HEAD
         
-=======
-        <Route path="/signin" element={<SignIn />} />
-      
->>>>>>> 6f40e77217d16b644da4f238a42970e72d4ca447
         {/* App */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/business-setup" element={<BusinessSetup />} />

@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { jsxRenderer } from '@hono/react-renderer';
+import { jsxRenderer } from './hono/react-renderer';
 import { AppShell } from './server/layouts/AppShell';
 import { OnboardStep } from './server/pages/OnboardStep';
 import { SignInPage } from './server/pages/SignInPage';
@@ -63,7 +63,7 @@ app.use('*', jsxRenderer(({ children }) => <AppShell>{children}</AppShell>, { do
 // ---------- Auth pages ----------
 app.get('/signin', (c) => {
   // Plain SSR sign-in page
-  return c.render(<SignInPage>);
+  return c.render(<SignInPage />);
 });
 
 app.post('/api/auth/signin', async (c) => {
