@@ -5,7 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Forecast from "./pages/Forecast";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
-import SignUp from "./pages/SignUp";
+import SignUp from "./pages/SignIn";
 import BusinessSetup from "./pages/BusinessSetup";
 import AnalyticsTrends from "./pages/AnalyticsTrends";
 import VendorProfiles from "./pages/VendorProfiles";
@@ -22,8 +22,8 @@ export default function App() {
         <Route path="/" element={<Welcome />} />
 
         {/* Auth */}
-        <Route path="/signup" element={<SignUp />} />
-        
+        <Route path="/signin" element={<SignIn />} />
+      
         {/* App */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/business-setup" element={<BusinessSetup />} />
