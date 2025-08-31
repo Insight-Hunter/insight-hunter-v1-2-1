@@ -6,7 +6,7 @@ import Forecast from "./pages/Forecast";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import BusinessSetup from "./pages/BusinessSetup";
-import AnalyticsTrends from "./pages/AnalyticsTrends";
+import Analytics from "./pages/Analytics";
 import VendorProfiles from "./pages/VendorProfiles";
 import Alerts from "./pages/Alerts";
 import AICFOAssistant from "./pages/AICFOAssistant";
@@ -27,7 +27,7 @@ export default function App() {
         {/* App */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/business-setup" element={<BusinessSetup />} />
-        <Route path="/analytics" element={<AnalyticsTrends />} />
+        <Route path="/analytics" element={<Analytics />} />
         <Route path="/vendors" element={<VendorProfiles />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/signin" element={<SignIn />} />
