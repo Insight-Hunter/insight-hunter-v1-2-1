@@ -63,7 +63,7 @@ app.use('*', jsxRenderer(({ children }) => <AppShell>{children}</AppShell>, { do
 // ---------- Auth pages ----------
 app.get('/signin', (c) => {
   // Plain SSR sign-in page
-  return c.render(<SignInPage />);
+  return c.render(<SignInPage>);
 });
 
 app.post('/api/auth/signin', async (c) => {

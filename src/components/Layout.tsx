@@ -23,7 +23,6 @@ export default function Layout() {
             />
             <span className="font-semibold">Insight Hunter</span>
           </Link>
-
           {/* Desktop nav */}
           <nav className="hidden md:flex gap-4">
             {tabs.map((t) => (
@@ -37,10 +36,8 @@ export default function Layout() {
             ))}
           </nav>
         </header>
-
         {/* Main */}
         <main className="flex-1 p-4">{children}</main>
-
         {/* Mobile tab bar */}
         {!hideTabs && (
           <footer className="md:hidden border-t">
@@ -64,7 +61,6 @@ export default function Layout() {
       </div>
   );
 }
-=======
     <div className="ih-layout">
       <div className="ih-main">
         <Outlet />
@@ -101,4 +97,3 @@ export default function Layout() {
       </div>
     );
  }
->>>>>>> b8cbba1554824ea403b3792ba8fc68241a278dd5
