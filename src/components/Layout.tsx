@@ -93,6 +93,5 @@ export default function Layout() {
            </Link>
          </nav>
         )}
-      </div>
-    );
+      </div>;
  }
