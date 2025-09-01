@@ -75,6 +75,11 @@ export default function Welcome() {
       </section>
 
       <div className="ih-home-indicator" aria-hidden />
+
+
+
+
+      
     </main>
   );
 }

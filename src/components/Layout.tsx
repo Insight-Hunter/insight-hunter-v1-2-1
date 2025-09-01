@@ -1,31 +1,6 @@
 import React from "react";
 import { Outlet, NavLink, Link, useLocation } from "react-router-dom";
 
-<<<<<<< HEAD
-// Navigation Links
-const tabs = [
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/analytics-trends", label: "Analytics" },
-  { to: "/reports", label: "Reports" },
-  { to: "/settings-setup", label: "Settings" },
-];
-
-export default function Layout() {
-  const { pathname } = useLocation();
-
-  // Hide bottom Tabs 
-    const hideTabs = pathname === "/" || pathname.startsWith("/signin");
-
-  return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="h-12 flex items-center justify-between px-4 border-b">
-        <Link to="/" className="flex items-center gap-2">
-          {/* Logo (served from /public/favicon.svg) */}
-          <img
-            src="/favicon.svg"
-            alt="Insight Hunter"
-=======
 /**
  * Bottom tabs config
  */
@@ -46,8 +21,8 @@ const tabs: Tab[] = [
     ),
   },
   {
-    to: "/forecast",
-    label: "Forecast",
+    to: "/analytics", // change to "/analytics-trends" if that's your route
+    label: "Analytics",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
         <path d="M3 17l5-5 4 4 7-7 2 2-9 9-4-4-5 5z" />
@@ -64,7 +39,7 @@ const tabs: Tab[] = [
     ),
   },
   {
-    to: "/settings",
+    to: "/settings", // change to "/settings-setup" if that's your route
     label: "Settings",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
@@ -77,8 +52,8 @@ const tabs: Tab[] = [
 export default function Layout(): JSX.Element {
   const { pathname } = useLocation();
 
-  // Per your request: hide the bottom tab bar on the Home route only
-  const showTabs = pathname !== "/";
+  // Hide bottom tab bar on home and any /signin route
+  const showTabs = !(pathname === "/" || pathname.startsWith("/signin"));
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-900">
@@ -88,28 +63,15 @@ export default function Layout(): JSX.Element {
           <img
             src="/favicon.svg"
             alt=""
->>>>>>> a34405c57c21dc758bd3e77b28b055da00881660
             className="h-6 w-6"
             loading="eager"
             decoding="sync"
           />
           <span className="font-semibold">Insight Hunter</span>
         </Link>
-<<<<<<< HEAD
-        {/* Desktop nav */}
-        <nav className="hidden md:flex gap-4">
-          {tabs.map((t) => (
-            <Link
-              key={t.to}
-              to={t.to}
-              className={pathname === t.to ? "font-semibold" : ""}
-            >
-              {t.label}
-            </Link>
-=======
 
         {/* Desktop nav (hidden on small screens) */}
-        <nav className="hidden md:flex gap-4">
+        <nav className="hidden md:flex gap-2">
           {tabs.map((t) => (
             <NavLink
               key={t.to}
@@ -117,43 +79,16 @@ export default function Layout(): JSX.Element {
               className={({ isActive }) =>
                 [
                   "px-3 py-1.5 rounded-md text-sm transition",
-                  isActive
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-600 hover:bg-gray-100",
+                  isActive ? "bg-gray-900 text-white" : "text-gray-700 hover:bg-gray-100",
                 ].join(" ")
               }
             >
               {t.label}
             </NavLink>
->>>>>>> a34405c57c21dc758bd3e77b28b055da00881660
           ))}
         </nav>
       </header>
 
-<<<<<<< HEAD
-      {/* Main content area */}
-      <main className="flex-1 p-4">
-        <Outlet />
-      </main>
-
-      {/* Mobile tab bar */}
-      {!hideTabs && (
-        <footer className="md:hidden border-t">
-          <div className="grid grid-cols-4 text-sm">
-            {tabs.map((t) => (
-              <Link
-                key={t.to}
-                to={t.to}
-                className={`py-2 text-center ${
-                  pathname === t.to ? "font-semibold" : ""
-                }`}
-              >
-                {t.label}
-              </Link>
-            ))}
-          </div>
-        </footer>
-=======
       {/* Main content */}
       <main className="flex-1">
         <Outlet />
@@ -164,6 +99,9 @@ export default function Layout(): JSX.Element {
         <nav
           className="md:hidden sticky bottom-0 bg-white border-t border-gray-200"
           aria-label="Primary"
+          style={{
+            paddingBottom: "env(safe-area-inset-bottom)",
+          }}
         >
           <ul className="grid grid-cols-4">
             {tabs.map((t) => (
@@ -184,7 +122,6 @@ export default function Layout(): JSX.Element {
             ))}
           </ul>
         </nav>
->>>>>>> a34405c57c21dc758bd3e77b28b055da00881660
       )}
     </div>
   );
