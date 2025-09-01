@@ -29,4 +29,14 @@
   "engines": {
     "node": ">=20 <21"
   }
+"overrides": {
+  "esbuild": "0.25.9",
+  "@esbuild/linux-x64": "0.25.9",
+  "@esbuild/linux-arm64": "0.25.9",
+  "@esbuild/darwin-x64": "0.25.9",
+  "@esbuild/darwin-arm64": "0.25.9",
+  "@esbuild/win32-x64": "0.25.9",
+  "@esbuild/win32-arm64": "0.25.9",
+  "@esbuild/win32-ia32": "0.25.9"
+  }
 }
