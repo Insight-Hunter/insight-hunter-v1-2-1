@@ -1,5 +1,15 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { BusinessSetupSchema } from "../lib/validation";
+
+const handleSubmit = async (data) => {
+  const result = BusinessSetupSchema.safeParse(data);
+  if (!result.success) {
+    setErrors(result.error.errors);
+    return;
+  }
+  // send to backend...
+};
 
 type SaveResp = { ok: boolean; message?: string };
 

@@ -3,4 +3,6 @@
   "main": "src/worker.ts",
   "compatibility_date": "2025-08-01",
   "assets": { "directory": "dist/client" }
+
 }
+

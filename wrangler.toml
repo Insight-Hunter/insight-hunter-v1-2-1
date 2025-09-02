@@ -1,48 +1,49 @@
 name = "insight-hunter"
-main = "worker/index.ts"
-compatibility_date = "2025-08-01"
-compatibility_flags = ["nodejs_compat"]
+main = "src/worker.ts"
+compatibility_date = "2025-09-02"
+account_id = "a79af8fef8f93be28fdb9a9facc5f318" # Turnbury Way, Inc
+workers_dev = true
+minify = true
+tsconfig = "tsconfig.json"
 
+# Serve your Vite-built SPA from ./dist on the same Worker
 [assets]
-directory = "dist/client"
-binding = "ASSETS"   # must match c.env.ASSETS in index.ts
+directory = "./dist"
+binding   = "ASSETS"   # Access via env.ASSETS in your Worker if needed
 
+# Optional: local dev behavior tweaks
+[dev]
+# port = 8787
+# ip = "127.0.0.1"
+
+# -------- Production Env --------
+[env.production]
+workers_dev = false
 routes = [
-  { pattern = "insight.hunterturner.com", custom_domain = true },
-  { pattern = "insight.hunterturner.com/*", custom_domain = true }
+  { pattern = "insight.hunterturner.com/*", zone_name = "hunterturner.com" }
 ]
 
-# --- Optional: Queues (producer) ---
-# [[queues.producers]]
-# binding = "JOBS"
-# queue = "insight-hunter-jobs"
+# -------- Optional bindings (uncomment & customize) --------
+# [vars]
+# NODE_ENV = "production"
 
-# --- Optional: Durable Objects ---
-# [[durable_objects.bindings]]
-# name = "SESSION"
-# class_name = "SessionDurableObject"
-
-[vars]
-TEMPLATE_VERSION = "v1" 
-name = "insight-hunter-onboarding"
-main = "src/worker.ts"
-compatibility_date = "2024-11-21"
-APP_ENV = "production"
-SESSION_TTL_SECONDS = "604800"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "insight_hunter_db"
-database_id = "3678f73e-c2cb-48fb-9cb4-91e6141024f4"
-
-[[kv_namespaces]]
-binding = "KV"
+# [[kv_namespaces]]
+binding = "insight_hunter_kv"
 id = "5d547bc308d1445d960d19636c589923"
 
-[[r2_buckets]]
-binding = "ASSETS"     # env.ASSETS
-bucket_name = "ih-templates"
+# [[PAGES_KV]]
+# binding = "PAGES_KV"
+# id = "dfd5a580d2fa4439b7a1eda82a1cc62c"
 
-[vars]
-TEMPLATE_VERSION = "v1"  # bump to bust cache
+# [[IH_SESSIONS]]
+# binding = "IH_SESSIONS"
+# id = "e6273860f3044173806606b6cab9d964"
 
+# [[r2_buckets]]
+# binding = "R2"
+# bucket_name = "ih_templates"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "insight_hunter_db"
+# database_id = "3678f73e-c2cb-48fb-9cb4-91e6141024f4"

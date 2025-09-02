@@ -67,12 +67,15 @@ export default function Welcome() {
 
         <button
           className="ih-cta"
-          onClick={() => nav("/signin")}
-          aria-label="Continue to sign in"
-        >
+          onClick={() => nav("/BusinessSetup")}
+          aria-label="Continue setup"
+        >Set
           Continue
         </button>
-      </section>
+            <a href="/SignIn" style={{ display: 'block', textAlign: 'center' }}>
+                Existing users sign in
+            </a>      
+            </section>
 
       <div className="ih-home-indicator" aria-hidden />
 p[;ljl]

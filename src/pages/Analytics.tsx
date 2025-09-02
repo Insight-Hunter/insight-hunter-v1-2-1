@@ -1,123 +1,210 @@
-import type { FC } from "react";
-import React from "react"
-import { Link } from "react-router-dom"
-import { useEffect, useState } from "react";
+// src/pages/Analytics.tsx
+import React, { useEffect, useState } from "react";
 
+type Kpi = { label: string; value: string };
+type Point = { month: string; revenue: number; expenses: number; net?: number };
 
-export const Analytics: FC = () => (
-  
-  <main>
-    <h1 style={{ fontSize: 28, marginBottom: 8 }}>Analytics & Trends</h1>
-    <p className="sub">“Your invoice risk increased 12% last month.”</p>
-  type Kpi = { label: string; value: string };
-type Point = { month: string; revenue: number; expenses: number; net: number };
+const card: React.CSSProperties = {
+  background: "rgba(255,255,255,0.045)",
+  border: "1px solid rgba(255,255,255,0.08)",
+  borderRadius: 16,
+  padding: 16,
+};
 
-export default function AnalyticsTrends() {
+const subtle: React.CSSProperties = { opacity: 0.8, fontSize: 13 };
+const grid = (min = 220): React.CSSProperties => ({
+  display: "grid",
+  gridTemplateColumns: `repeat(auto-fit, minmax(${min}px,1fr))`,
+  gap: 16,
+});
+
+export default function Analytics() {
   const [loading, setLoading] = useState(true);
   const [kpis, setKpis] = useState<Kpi[]>([]);
   const [series, setSeries] = useState<Point[]>([]);
-  
+
   useEffect(() => {
+    let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/analytics/summary");
-        const data = await res.json();
-        setKpis(data.kpis || []);
-        setSeries(data.series || []);
-      } catch {
-        setKpis([
-          { label: "MRR", value: "$6,400" },
-          { label: "Active Clients", value: "18" },
-          { label: "Avg. AR Days", value: "27" },
-        ]);
-        setSeries([
-          { month: "Jan", revenue: 22000, expenses: 15000, net: 7000 },
-          { month: "Feb", revenue: 23500, expenses: 16400, net: 7100 },
-          { month: "Mar", revenue: 25000, expenses: 17200, net: 7800 },
-          { month: "Apr", revenue: 26800, expenses: 18600, net: 8200 },
-        ]);
+        const res = await fetch("/api/analytics/summary").catch(() => null);
+        if (res && res.ok) {
+          const data = await res.json();
+          if (!cancelled) {
+            setKpis((data?.kpis as Kpi[]) ?? []);
+            setSeries((data?.series as Point[]) ?? []);
+          }
+        } else {
+          // Fallback demo data
+          if (!cancelled) {
+            setKpis([
+              { label: "MRR", value: "$6,400" },
+              { label: "Active Clients", value: "18" },
+              { label: "Avg. AR Days", value: "27" },
+            ]);
+            setSeries([
+              { month: "Jan", revenue: 22000, expenses: 15000, net: 7000 },
+              { month: "Feb", revenue: 23500, expenses: 16400, net: 7100 },
+              { month: "Mar", revenue: 25000, expenses: 17200, net: 7800 },
+              { month: "Apr", revenue: 26800, expenses: 18600, net: 8200 },
+            ]);
+          }
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
-    <div className="space-y-6">
-      <header>
-        <h1 className="text-xl font-semibold">Analytics & Trends</h1>
-        <p className="text-sm text-gray-500">Key performance indicators and monthly trends.</p>
-      </header>
+    <main>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "space-between",
+          gap: 12,
+          marginBottom: 12,
+        }}
+      >
+        <h1 style={{ margin: 0, fontSize: 24 }}>Analytics</h1>
+        <div style={subtle}>Key performance indicators and monthly trends</div>
+      </div>
 
       {/* KPIs */}
-      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <section style={grid(220)}>
         {kpis.map((k) => (
-          <div key={k.label} className="rounded border p-4">
-            <div className="text-sm text-gray-500">{k.label}</div>
-            <div className="text-2xl font-semibold mt-1">{k.value}</div>
+          <div key={k.label} style={card}>
+            <div style={{ ...subtle }}>{k.label}</div>
+            <div style={{ fontSize: 26, fontWeight: 700, marginTop: 6 }}>
+              {k.value}
+            </div>
           </div>
         ))}
+        {!kpis.length && (
+          <div style={card}>
+            <div style={{ ...subtle }}>No KPIs</div>
+            <div style={{ marginTop: 6 }}>
+              Add data sources to see KPIs here.
+            </div>
+          </div>
+        )}
       </section>
 
-      {/* Simple line chart (SVG) */}
-      <section className="rounded border p-4">
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="font-medium">Revenue vs Expenses</h2>
-          {loading && <span className="text-sm text-gray-500">Loading…</span>}
+      <div style={{ height: 16 }} />
+
+      {/* Chart */}
+      <section style={{ ...card }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 8,
+          }}
+        >
+          <div style={{ fontWeight: 600 }}>Revenue vs Expenses</div>
+          {loading && <span style={subtle}>Loading…</span>}
         </div>
         <Chart data={series} />
       </section>
-    </div>
+    </main>
   );
 }
 
 function Chart({ data }: { data: Point[] }) {
-  if (!data.length) return <div className="text-sm text-gray-500">No data yet.</div>;
+  if (!data.length) {
+    return <div style={{ ...subtle }}>No data yet.</div>;
+  }
 
-  // Normalize to 0..1 for simple plotting
-  const maxVal = Math.max(...data.flatMap(d => [d.revenue, d.expenses]));
-  const pad = 20, w = 600, h = 220;
-  const step = (w - pad * 2) / (data.length - 1 || 1);
+  // Simple responsive-ish SVG settings
+  const pad = 24;
+  const w = 640;
+  const h = 240;
+  const maxVal = Math.max(...data.flatMap((d) => [d.revenue, d.expenses, 1]));
+  const step = (w - pad * 2) / Math.max(data.length - 1, 1);
   const y = (v: number) => h - pad - (v / maxVal) * (h - pad * 2);
   const x = (i: number) => pad + i * step;
 
-  const path = (key: "revenue" | "expenses") =>
-    data.map((d, i) => `${i === 0 ? "M" : "L"} ${x(i)} ${y(d[key])}`).join(" ");
-
-  // src/pages/Analytics.tsx
-
-
-type KPI = { label: string; value: string; sublabel?: string }
-type Point = { x: string; y: number }
-
-const kpis: KPI[] = [
-  { label: "MRR", value: "$6,400", sublabel: "+4.3% MoM" },
-  { label: "Active Workspaces", value: "41", sublabel: "+3 this week" },
-  { label: "Avg. Report Time", value: "1.8m", sublabel: "-22% vs. last wk" },
-  { label: "Cash Burn (net)", value: "$-3.2k", sublabel: "Runway: 8.5 mo" }
-]
-
-const revenueTrend: Point[] = [
-  { x: "Mar", y: 19.2 }, { x: "Apr", y: 21.1 }, { x: "May", y: 22.9 },
-  { x: "Jun", y: 24.7 }, { x: "Jul", y: 25.8 }, { x: "Aug", y: 28.3 }
-]
-
-const cashBars: Point[] = [
-  { x: "Apr", y: 6.1 }, { x: "May", y: 5.4 }, { x: "Jun",
+  const pathFor = (key: "revenue" | "expenses") =>
+    data
+      .map((d, i) => `${i === 0 ? "M" : "L"} ${x(i)} ${y((d as any)[key])}`)
+      .join(" ");
 
   return (
-    <div className="overflow-x-auto">
-      <svg width={w} height={h} role="img" aria-label="Revenue and expenses line chart">
+    <div style={{ overflowX: "auto" }}>
+      <svg
+        viewBox={`0 0 ${w} ${h}`}
+        width="100%"
+        height={h}
+        role="img"
+        aria-label="Revenue and expenses line chart"
+      >
+        {/* grid lines */}
+        {[0, 0.25, 0.5, 0.75, 1].map((t, i) => {
+          const yy = pad + t * (h - pad * 2);
+          return (
+            <line
+              key={i}
+              x1={pad}
+              x2={w - pad}
+              y1={yy}
+              y2={yy}
+              stroke="rgba(255,255,255,0.08)"
+            />
+          );
+        })}
+
         {/* axes */}
-        <line x1={pad} y1={h - pad} x2={w - pad} y2={h - pad} stroke="#ccc" />
-        <line x1={pad} y1={pad} x2={pad} y2={h - pad} stroke="#ccc" />
+        <line
+          x1={pad}
+          y1={h - pad}
+          x2={w - pad}
+          y2={h - pad}
+          stroke="rgba(255,255,255,0.25)"
+        />
+        <line
+          x1={pad}
+          y1={pad}
+          x2={pad}
+          y2={h - pad}
+          stroke="rgba(255,255,255,0.25)"
+        />
+
         {/* revenue */}
-        <path d={path("revenue")} fill="none" stroke="currentColor" strokeWidth={2} />
+        <path
+          d={pathFor("revenue")}
+          fill="none"
+          stroke="#9EC5FF"
+          strokeWidth={2.5}
+        />
         {/* expenses */}
-        <path d={path("expenses")} fill="none" stroke="currentColor" strokeOpacity={0.4} strokeWidth={2} />
-        {/* x labels */}
+        <path
+          d={pathFor("expenses")}
+          fill="none"
+          stroke="#FFD1A6"
+          strokeWidth={2.5}
+          strokeOpacity={0.85}
+        />
+
+        {/* points + labels */}
         {data.map((d, i) => (
-          <text key={d.month} x={x(i)} y={h - 4} fontSize="10" textAnchor="middle">{d.month}</text>
+          <g key={d.month}>
+            <circle cx={x(i)} cy={y(d.revenue)} r={3} fill="#9EC5FF" />
+            <circle cx={x(i)} cy={y(d.expenses)} r={3} fill="#FFD1A6" />
+            <text
+              x={x(i)}
+              y={h - 6}
+              fontSize="11"
+              textAnchor="middle"
+              fill="rgba(255,255,255,0.75)"
+            >
+              {d.month}
+            </text>
+          </g>
         ))}
       </svg>
     </div>

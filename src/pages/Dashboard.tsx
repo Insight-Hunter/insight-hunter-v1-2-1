@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getJSON } from "@/lib/api";
 import { Stat } from "@/components/Stat";
+
 type Summary = { label: string; value: string };
 export default function Dashboard() {
   const [data, setData] = useState<Summary[] | null>(null);

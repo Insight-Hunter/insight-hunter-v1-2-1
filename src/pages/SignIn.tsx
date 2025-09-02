@@ -42,6 +42,12 @@ export default function SignIn() {
     }
   }
 
+  return c
+    .header("Set-Cookie", [
+      `token=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=7200`,
+    ])
+    .json({ success: true });
+    
   return (
     <main style={{ padding: "24px 16px", color: "#e8f1ef" }}>
       <h1 style={{ fontSize: 28, marginBottom: 8 }}>Sign in</h1>
@@ -134,3 +140,4 @@ const alertErr: React.CSSProperties = {
   color: "#ffd0d0",
   fontSize: 14,
 };
+
