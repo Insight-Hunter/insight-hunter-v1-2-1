@@ -1,4 +1,3 @@
-// tsconfig.json
 {
   "compilerOptions": {
     "target": "ES2020",
@@ -11,10 +10,5 @@
     "skipLibCheck": true,
     "types": ["vite/client"]
   },
-  "include": ["src"]
+  "include": ["src", "functions"]
 }
-
-    // 
-    //"include": ["src"],
-    //"references": [{ "path": "tsconfig.node.json" }]
-    // 

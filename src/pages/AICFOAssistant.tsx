@@ -1,1 +1,3 @@
-export default function AICFOAssistant() { return <h2>AI CFO Assistant</h2>; }
+export default function AICFOAssistant() {
+  return <h2>AI CFO Assistant</h2>;
+}

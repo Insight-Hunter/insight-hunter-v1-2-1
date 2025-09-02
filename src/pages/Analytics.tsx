@@ -1,7 +1,11 @@
 import type { FC } from "react";
+import React from "react"
+import { Link } from "react-router-dom"
+import { useEffect, useState } from "react";
+
+
 export const Analytics: FC = () => (
   
-import { useEffect, useState } from "react";
   <main>
     <h1 style={{ fontSize: 28, marginBottom: 8 }}>Analytics & Trends</h1>
     <p className="sub">“Your invoice risk increased 12% last month.”</p>
@@ -79,6 +83,27 @@ function Chart({ data }: { data: Point[] }) {
 
   const path = (key: "revenue" | "expenses") =>
     data.map((d, i) => `${i === 0 ? "M" : "L"} ${x(i)} ${y(d[key])}`).join(" ");
+
+  // src/pages/Analytics.tsx
+
+
+type KPI = { label: string; value: string; sublabel?: string }
+type Point = { x: string; y: number }
+
+const kpis: KPI[] = [
+  { label: "MRR", value: "$6,400", sublabel: "+4.3% MoM" },
+  { label: "Active Workspaces", value: "41", sublabel: "+3 this week" },
+  { label: "Avg. Report Time", value: "1.8m", sublabel: "-22% vs. last wk" },
+  { label: "Cash Burn (net)", value: "$-3.2k", sublabel: "Runway: 8.5 mo" }
+]
+
+const revenueTrend: Point[] = [
+  { x: "Mar", y: 19.2 }, { x: "Apr", y: 21.1 }, { x: "May", y: 22.9 },
+  { x: "Jun", y: 24.7 }, { x: "Jul", y: 25.8 }, { x: "Aug", y: 28.3 }
+]
+
+const cashBars: Point[] = [
+  { x: "Apr", y: 6.1 }, { x: "May", y: 5.4 }, { x: "Jun",
 
   return (
     <div className="overflow-x-auto">

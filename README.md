@@ -8,6 +8,7 @@ Live App: [https://insight.hunterturner.com](https://insight.hunterturner.com)
 ---
 
 ## 🚀 Features
+
 - **Authentication & Setup**
   - Sign Up / Sign In with session cookies
   - Business Setup wizard (legal name, currency, fiscal year, industry)
@@ -28,6 +29,7 @@ Live App: [https://insight.hunterturner.com](https://insight.hunterturner.com)
 ---
 
 ## 🛠️ Tech Stack
+
 - **Frontend**
   - React + TypeScript
   - React Router v6
@@ -44,6 +46,7 @@ Live App: [https://insight.hunterturner.com](https://insight.hunterturner.com)
 ---
 
 ## 📂 Project Structure
+
 ```
 src/
   components/     # Layout, shared UI
@@ -62,12 +65,15 @@ public/
 ---
 
 ## ⚡ Development
+
 ### Prerequisites
+
 - Node.js 18+
 - [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/)
 - Cloudflare account (with D1, KV, R2 enabled)
 
 ### Setup
+
 ```bash
 # Install dependencies
 npm install
@@ -82,7 +88,9 @@ wrangler dev
 ---
 
 ## 🗄️ Database (D1)
+
 Run migrations:
+
 ```bash
 wrangler d1 migrations apply insight_hunter
 ```
@@ -90,7 +98,9 @@ wrangler d1 migrations apply insight_hunter
 ---
 
 ## 🔑 Environment & Bindings
+
 In `wrangler.toml`:
+
 ```toml
 [[d1_databases]]
 binding = "IH_DB"
@@ -109,13 +119,15 @@ bucket_name = "insight-hunter-uploads"
 ---
 
 ## 🤝 Contributing
+
 We welcome contributions! To get started:
+
 1. Fork this repo
-2. Create a new feature branch:  
+2. Create a new feature branch:
    ```bash
    git checkout -b feature/my-new-feature
    ```
-3. Make your changes and commit:  
+3. Make your changes and commit:
    ```bash
    git commit -m "Add new feature"
    ```
@@ -126,6 +138,7 @@ Please follow standard TypeScript + Prettier formatting, and add comments to you
 ---
 
 ## 🛣️ Roadmap
+
 - [x] Authentication (Sign Up / Sign In)
 - [x] Business Setup wizard
 - [x] Dashboard, Reports, Forecast placeholders
@@ -141,6 +154,7 @@ Please follow standard TypeScript + Prettier formatting, and add comments to you
 ---
 
 ## 📝 License
+
 MIT License © 2025 Insight Hunter  
 See full license text below:
 
@@ -169,7 +183,7 @@ SOFTWARE.
 ---
 
 ## 👤 Authors
-- **James Michael Hunter Turner**  
 
+- **James Michael Hunter Turner**
 
 [insight.hunterturner.com](https://insight.hunterturner.com)

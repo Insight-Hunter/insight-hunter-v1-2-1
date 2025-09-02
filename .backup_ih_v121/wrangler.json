@@ -2,5 +2,5 @@
   "name": "insight-hunter-v1-2-1",
   "main": "src/worker.ts",
   "compatibility_date": "2025-08-01",
-  "assets": {"directory": "dist/client"}
+  "assets": { "directory": "dist/client" }
 }

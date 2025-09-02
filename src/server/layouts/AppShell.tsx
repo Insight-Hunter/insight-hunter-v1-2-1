@@ -4,8 +4,11 @@ export const AppShell: FC<PropsWithChildren> = ({ children }) => {
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8"/>
-        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+        <meta charSet="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,viewport-fit=cover"
+        />
         <title>Insight Hunter</title>
         <style>{`
           :root{ --fg:#e8f1ef; --bg:#050809; --sub:#a8b8b5; --stroke:#2b3b3a; --btn:#0f1a1a; --accent:#1fd1b5; }

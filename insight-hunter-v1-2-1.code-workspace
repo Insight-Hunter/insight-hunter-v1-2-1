@@ -1,9 +1,9 @@
 {
-	"folders": [
-		{
-			"name": "insight-hunter-v1-2-1",
-			"path": "."
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "name": "insight-hunter-v1-2-1",
+      "path": ".",
+    },
+  ],
+  "settings": {},
 }

@@ -1,10 +1,25 @@
-import { createContext, useContext, useMemo, useState, ReactNode, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type StepId =
-  | "signin" | "connect-data" | "business-setup" | "settings-setup"
-  | "dashboard-preview" | "analytics-trends" | "profiles" | "reports"
-  | "forecasting" | "alerts" | "assistant";
+  | "signin"
+  | "connect-data"
+  | "business-setup"
+  | "settings-setup"
+  | "dashboard-preview"
+  | "analytics-trends"
+  | "profiles"
+  | "reports"
+  | "forecasting"
+  | "alerts"
+  | "assistant";
 
 export const ONBOARDING_ORDER: StepId[] = [
   "signin",
@@ -42,7 +57,9 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
   const [complete, setComplete] = useState<Record<StepId, boolean>>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : { signin: false } as Record<StepId, boolean>;
+      return raw
+        ? JSON.parse(raw)
+        : ({ signin: false } as Record<StepId, boolean>);
     } catch {
       return { signin: false } as Record<StepId, boolean>;
     }
@@ -51,18 +68,20 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
   const stepId = useMemo<StepId>(() => {
     const path = loc.pathname.replace(/^\//, "");
     const match = (path || "signin") as StepId;
-    return (ONBOARDING_ORDER.includes(match) ? match : "signin");
+    return ONBOARDING_ORDER.includes(match) ? match : "signin";
   }, [loc.pathname]);
 
   const currentIndex = useMemo(
     () => Math.max(0, ONBOARDING_ORDER.indexOf(stepId)),
-    [stepId]
+    [stepId],
   );
 
   const total = ONBOARDING_ORDER.length;
 
   function persist(next: Record<StepId, boolean>) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch {}
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch {}
   }
 
   const markComplete = (id: StepId) => {
@@ -90,10 +109,15 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     // find first incomplete after signin is complete or not
     let firstIncomplete: StepId | null = null;
     for (const id of ONBOARDING_ORDER) {
-      if (!complete[id]) { firstIncomplete = id; break; }
+      if (!complete[id]) {
+        firstIncomplete = id;
+        break;
+      }
     }
     // Users can always visit current or back; block jumping ahead
-    const allowedIndex = firstIncomplete ? ONBOARDING_ORDER.indexOf(firstIncomplete) : total - 1;
+    const allowedIndex = firstIncomplete
+      ? ONBOARDING_ORDER.indexOf(firstIncomplete)
+      : total - 1;
     if (currentIndex > allowedIndex) {
       nav(`/${firstIncomplete!}`, { replace: true });
     }
@@ -103,13 +127,25 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     }
   }, [complete, currentIndex, nav, stepId, total]);
 
-  const value: OnboardingState = { currentIndex, complete, markComplete, next, prev, goto, stepId, total };
+  const value: OnboardingState = {
+    currentIndex,
+    complete,
+    markComplete,
+    next,
+    prev,
+    goto,
+    stepId,
+    total,
+  };
 
-  return <OnboardingCtx.Provider value={value}>{children}</OnboardingCtx.Provider>;
+  return (
+    <OnboardingCtx.Provider value={value}>{children}</OnboardingCtx.Provider>
+  );
 }
 
 export function useOnboarding() {
   const ctx = useContext(OnboardingCtx);
-  if (!ctx) throw new Error("useOnboarding must be used within OnboardingProvider");
+  if (!ctx)
+    throw new Error("useOnboarding must be used within OnboardingProvider");
   return ctx;
 }

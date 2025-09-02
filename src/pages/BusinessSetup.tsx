@@ -75,9 +75,21 @@ export default function BusinessSetup() {
               onChange={(e) => setFiscalMonth(e.target.value)}
             >
               {[
-                "January","February","March","April","May","June",
-                "July","August","September","October","November","December",
-              ].map((m) => <option key={m}>{m}</option>)}
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+              ].map((m) => (
+                <option key={m}>{m}</option>
+              ))}
             </select>
           </label>
 
@@ -100,7 +112,9 @@ export default function BusinessSetup() {
         {err && <p className="text-sm text-red-600">{err}</p>}
 
         <div className="flex gap-3">
-          <Link to="/dashboard" className="rounded border px-4 py-2">Skip for now</Link>
+          <Link to="/dashboard" className="rounded border px-4 py-2">
+            Skip for now
+          </Link>
           <button
             type="submit"
             disabled={loading}
@@ -112,9 +126,18 @@ export default function BusinessSetup() {
       </form>
 
       <div className="mt-6 text-sm text-gray-500">
-        Next: <Link to="/dashboard" className="underline">Dashboard</Link> →{" "}
-        <Link to="/analytics" className="underline">Analytics & Trends</Link> →{" "}
-        <Link to="/reports" className="underline">Reports</Link>
+        Next:{" "}
+        <Link to="/dashboard" className="underline">
+          Dashboard
+        </Link>{" "}
+        →{" "}
+        <Link to="/analytics" className="underline">
+          Analytics & Trends
+        </Link>{" "}
+        →{" "}
+        <Link to="/reports" className="underline">
+          Reports
+        </Link>
       </div>
     </div>
   );

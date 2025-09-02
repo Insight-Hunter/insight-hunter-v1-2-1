@@ -1,0 +1,21 @@
+import React from "react"
+import { Outlet, Link, useLocation } from "react-router-dom"
+
+export default function Layout(){
+  const { pathname } = useLocation()
+  const showTabs = pathname !== "/"
+  return (
+    <div className="container">
+      {showTabs && (
+        <nav style={{display:"flex", gap:12, marginBottom:16, flexWrap:"wrap"}}>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/forecast">Forecast</Link>
+          <Link to="/reports">Reports</Link>
+          <Link to="/analytics">Analytics</Link>
+          <Link to="/settings">Settings</Link>
+        </nav>
+      )}
+      <Outlet/>
+    </div>
+  )
+}

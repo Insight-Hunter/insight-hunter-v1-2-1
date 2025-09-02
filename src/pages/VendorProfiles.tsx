@@ -1,1 +1,3 @@
-export default function VendorProfiles() { return <h2>Vendor & Client Profiles</h2>; }
+export default function VendorProfiles() {
+  return <h2>Vendor & Client Profiles</h2>;
+}
